@@ -161,7 +161,9 @@ window.MoyuGraph = (() => {
       .map(([name, n]) => ({ name, n }));
 
     const manualRels = (project.manualRels || []).map(normalizeEdge);
-    const merged = mergeEdges([...rels.values()], manualRels);
+    const removed = new Set(project.removedRels || []);
+    const merged = mergeEdges([...rels.values()], manualRels)
+      .filter(e => !(e.source === 'auto' && removed.has(edgeKey(e.a, e.b))));
     return { chars, mentions, rels: merged, candidates, manualRels };
   }
 
@@ -219,7 +221,20 @@ window.MoyuGraph = (() => {
     return [...map.values()];
   }
 
+  function campConfig() {
+    const p = window.Moyu.getProject();
+    return { custom: p.customCamps || [], colors: p.campColors || {} };
+  }
+
+  function allCamps() {
+    return CAMPS.concat(campConfig().custom.map(c => c.name));
+  }
+
   function campColor(camp) {
+    const { custom, colors } = campConfig();
+    if (colors[camp]) return colors[camp];
+    const hit = custom.find(c => c.name === camp);
+    if (hit && hit.color) return hit.color;
     const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
     return CAMP_COLORS[theme][camp] || CAMP_COLORS[theme]['其他'];
   }
@@ -625,7 +640,7 @@ window.MoyuGraph = (() => {
 
   function renderLegend() {
     const P = pal();
-    const dots = CAMPS.map(c => `<span class="lg"><i class="dot" style="background:${campColor(c)}"></i>${c}</span>`).join('');
+    const dots = allCamps().map(c => `<span class="lg"><i class="dot" style="background:${campColor(c)}"></i>${c}</span>`).join('');
     const lines = REL_LEVELS.map((l, i) =>
       `<span class="lg"><i class="line" style="background:${P.edge[i]}"></i>${l.name}</span>`).join('');
     overlay.querySelector('#graphLegend').innerHTML = dots + lines;
@@ -652,7 +667,7 @@ window.MoyuGraph = (() => {
     let main = '';
     if (selEdge) main = renderEdgeEditor(selEdge);
     else if (sel) main = renderPersonEditor(sel) + renderRelations(data, sel);
-    else main = renderPersonList(persons) + renderCandidates(data);
+    else main = renderPersonList(persons) + renderCandidates(data) + renderRemovedRels() + renderCampManager();
 
     side.innerHTML = `
       <div class="graph-controls">
@@ -660,7 +675,7 @@ window.MoyuGraph = (() => {
         <div class="filter-row">
           <select id="graphCampFilter">
             <option value="">全部阵营</option>
-            ${CAMPS.map(c => `<option value="${c}" ${campFilter === c ? 'selected' : ''}>${c}</option>`).join('')}
+            ${allCamps().map(c => `<option value="${c}" ${campFilter === c ? 'selected' : ''}>${c}</option>`).join('')}
           </select>
           <select id="graphStatusFilter">
             <option value="">全部状态</option>
@@ -712,7 +727,7 @@ window.MoyuGraph = (() => {
       <label>别名（逗号分隔）<input id="f-alias" value="${escapeHtml((c.alias || []).join(','))}" /></label>
       <label>头像 URL<input id="f-avatar" value="${escapeHtml(c.avatar || '')}" /></label>
       <label>代表色<input type="color" id="f-color" value="${c.color || campColor(c.camp)}" /></label>
-      <label>阵营<select id="f-camp">${CAMPS.map(x => `<option value="${x}" ${(c.camp || '中立') === x ? 'selected' : ''}>${x}</option>`).join('')}</select></label>
+      <label>阵营<select id="f-camp">${allCamps().map(x => `<option value="${x}" ${(c.camp || '中立') === x ? 'selected' : ''}>${x}</option>`).join('')}</select></label>
       <label>所属势力<input id="f-faction" value="${escapeHtml(c.faction || '')}" /></label>
       <label>状态<select id="f-status">${STATUSES.map(x => `<option value="${x}" ${(c.status || '活跃') === x ? 'selected' : ''}>${x}</option>`).join('')}</select></label>
       <label>形状<select id="f-shape">${SHAPES.map(x => `<option value="${x.value}" ${(c.shape || 'circle') === x.value ? 'selected' : ''}>${x.label}</option>`).join('')}</select></label>
@@ -760,6 +775,7 @@ window.MoyuGraph = (() => {
       ` : `
         <div class="gs-empty">这是根据正文共现自动检测的关系。<br>可以转为手动关系后再补充方向、类型和时间信息。</div>
         <button class="add-block" id="promoteEdge">转为手动关系</button>
+        <button class="danger-btn" id="breakEdge">断开此关系</button>
       `}
     </div>`;
   }
@@ -814,7 +830,8 @@ window.MoyuGraph = (() => {
         name: document.getElementById('f-name').value.trim() || node.name,
         alias: document.getElementById('f-alias').value.split(/[,，]/).map(x => x.trim()).filter(Boolean),
         avatar: document.getElementById('f-avatar').value.trim(),
-        color: document.getElementById('f-color').value,
+        color: document.getElementById('f-color').value.toLowerCase() === campColor(document.getElementById('f-camp').value).toLowerCase()
+          ? '' : document.getElementById('f-color').value,
         camp: document.getElementById('f-camp').value,
         faction: document.getElementById('f-faction').value.trim(),
         status: document.getElementById('f-status').value,
@@ -859,6 +876,84 @@ window.MoyuGraph = (() => {
       });
       refresh();
     });
+
+    const breakBtn = side.querySelector('#breakEdge');
+    if (breakBtn) breakBtn.addEventListener('click', () => {
+      if (!edgeEdit) return;
+      window.Moyu.removeAutoRel(edgeKey(edgeEdit.a, edgeEdit.b));
+      edgeEdit = null;
+      refresh();
+    });
+
+    side.querySelectorAll('.restore-rel').forEach(b => b.addEventListener('click', () => {
+      window.Moyu.restoreAutoRel(b.dataset.key);
+      refresh();
+    }));
+
+    side.querySelectorAll('.camp-color-input').forEach(inp => inp.addEventListener('change', () => {
+      const p = window.Moyu.getProject();
+      window.Moyu.saveCampConfig({ campColors: { ...(p.campColors || {}), [inp.dataset.camp]: inp.value } });
+      refresh();
+    }));
+
+    const addCampBtn = side.querySelector('#addCampBtn');
+    if (addCampBtn) addCampBtn.addEventListener('click', () => {
+      const name = side.querySelector('#newCampName').value.trim();
+      const color = side.querySelector('#newCampColor').value;
+      if (!name || allCamps().includes(name)) return;
+      const p = window.Moyu.getProject();
+      window.Moyu.saveCampConfig({ customCamps: (p.customCamps || []).concat([{ name, color }]) });
+      refresh();
+    });
+
+    side.querySelectorAll('.del-camp').forEach(b => b.addEventListener('click', () => {
+      const p = window.Moyu.getProject();
+      const colors = { ...(p.campColors || {}) };
+      delete colors[b.dataset.camp];
+      window.Moyu.saveCampConfig({
+        customCamps: (p.customCamps || []).filter(c => c.name !== b.dataset.camp),
+        campColors: colors,
+      });
+      refresh();
+    }));
+
+    const campSelect = side.querySelector('#f-camp');
+    if (campSelect) campSelect.addEventListener('change', () => {
+      const colorInput = document.getElementById('f-color');
+      if (colorInput) colorInput.value = campColor(campSelect.value);
+    });
+  }
+
+  function renderRemovedRels() {
+    const p = window.Moyu.getProject();
+    const list = p.removedRels || [];
+    if (!list.length) return '';
+    return `<div>
+      <div class="gs-cap"><span>已断开的关系</span><span>${list.length}</span></div>
+      ${list.map(k => {
+        const parts = k.split('|');
+        return `<div class="person-row"><span class="person-name">${escapeHtml(parts[0])} — ${escapeHtml(parts[1])}</span><button class="join-btn restore-rel" data-key="${escapeHtml(k)}">恢复</button></div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  function renderCampManager() {
+    const custom = campConfig().custom;
+    const customNames = new Set(custom.map(c => c.name));
+    return `<div>
+      <div class="gs-cap"><span>阵营管理</span><span>${allCamps().length}</span></div>
+      ${allCamps().map(name => `
+        <div class="person-row camp-row">
+          <input type="color" class="camp-color-input" data-camp="${escapeHtml(name)}" value="${campColor(name)}" title="设置「${escapeHtml(name)}」颜色" />
+          <span class="person-name">${escapeHtml(name)}</span>
+          ${customNames.has(name) ? `<button class="join-btn del-camp" data-camp="${escapeHtml(name)}">删除</button>` : '<span class="person-tag">内置</span>'}
+        </div>`).join('')}
+      <div class="camp-add-row">
+        <input id="newCampName" placeholder="新阵营名称" />
+        <input type="color" id="newCampColor" value="#8a6d3b" title="新阵营颜色" />
+        <button class="join-btn" id="addCampBtn">添加</button>
+      </div>
+    </div>`;
   }
 
   function renderBookmarkList() {

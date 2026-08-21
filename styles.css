@@ -707,3 +707,19 @@ body.focus .paper { width: min(820px, calc(100% - 64px)); }
   .graph-top { flex-wrap: wrap; row-gap: 8px; padding: 8px 12px; }
   .path-query { order: 10; }
 }
+
+/* ============ 关系网 · 阵营管理 / 断线 ============ */
+.camp-row { cursor: default; }
+.camp-row input[type="color"],
+.camp-add-row input[type="color"] {
+  width: 30px; height: 24px; padding: 0; flex: none;
+  border: 1px solid var(--line); border-radius: 4px;
+  background: none; cursor: pointer;
+}
+.camp-add-row { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+.camp-add-row #newCampName {
+  flex: 1; min-width: 0; padding: 5px 8px; font-size: 12px;
+  border: 1px solid var(--line); border-radius: 6px;
+  background: var(--paper); color: var(--ink);
+}
+.camp-add-row #newCampName:focus { outline: none; border-color: var(--accent-line); }

@@ -62,6 +62,9 @@ function seedProject() {
     }],
     chars: [],
     notes: [],
+    customCamps: [],
+    campColors: {},
+    removedRels: [],
     daily: {},
     createdAt: Date.now(),
   };
@@ -438,6 +441,9 @@ function importJson(file) {
       proj.daily = proj.daily || {}; proj.chars = proj.chars || []; proj.notes = proj.notes || [];
       proj.manualRels = proj.manualRels || [];
       proj.bookmarks = proj.bookmarks || [];
+      proj.customCamps = proj.customCamps || [];
+      proj.campColors = proj.campColors || {};
+      proj.removedRels = proj.removedRels || [];
       proj.graphSettings = proj.graphSettings || { layout: 'force', currentChapter: null };
       proj.synopsis = proj.synopsis || '';
       state.projects.push(proj);
@@ -724,6 +730,23 @@ window.Moyu = {
   saveBookmarks(list) {
     const p = project();
     p.bookmarks = list;
+    setDirty();
+  },
+  removeAutoRel(key) {
+    const p = project();
+    if (!p.removedRels) p.removedRels = [];
+    if (!p.removedRels.includes(key)) p.removedRels.push(key);
+    setDirty();
+  },
+  restoreAutoRel(key) {
+    const p = project();
+    p.removedRels = (p.removedRels || []).filter(k => k !== key);
+    setDirty();
+  },
+  saveCampConfig(patch = {}) {
+    const p = project();
+    if (patch.customCamps) p.customCamps = patch.customCamps;
+    if (patch.campColors) p.campColors = patch.campColors;
     setDirty();
   },
   getChapterCount() {

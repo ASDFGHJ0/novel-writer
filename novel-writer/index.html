@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>墨屿 · 小说写作台</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>
+    <span class="brand-name">墨屿</span>
+  </div>
+
+  <div class="book-title-wrap">
+    <input id="bookTitle" class="book-title" type="text" spellcheck="false" title="书名(点击修改)">
+  </div>
+
+  <div class="topbar-right">
+    <div class="goal-ring" id="goalRing" title="今日码字进度">
+      <svg viewBox="0 0 36 36">
+        <circle class="ring-bg" cx="18" cy="18" r="15.5"></circle>
+        <circle class="ring-fg" id="ringFg" cx="18" cy="18" r="15.5"></circle>
+      </svg>
+      <span class="ring-num" id="ringNum">0</span>
+    </div>
+
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="searchInput" type="text" placeholder="搜索章节或内容…" spellcheck="false">
+      <div class="search-results" id="searchResults" hidden></div>
+    </div>
+
+    <button class="icon-btn" id="btnFocus" title="专注模式">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+    </button>
+    <button class="icon-btn" id="btnGraph" title="人物关系网">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4"/><path d="m15.4 6.5-6.8 4"/></svg>
+    </button>
+    <button class="icon-btn" id="btnTheme" title="切换主题">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+    </button>
+    <div class="menu-wrap">
+      <button class="icon-btn" id="btnExport" title="导出 / 备份">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+      </button>
+      <div class="menu" id="exportMenu" hidden>
+        <button data-action="export-txt">导出成稿 TXT</button>
+        <button data-action="export-json">备份项目 JSON</button>
+        <button data-action="import-json">导入 JSON 备份</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-head">
+      <select id="projectSelect" title="切换作品"></select>
+      <button class="icon-btn" id="btnNewProject" title="新建作品">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+      </button>
+    </div>
+    <div class="tree" id="tree"></div>
+    <div class="side-foot">
+      <button class="ghost-btn" id="btnAddChapter">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+        新建章节
+      </button>
+      <button class="ghost-btn" id="btnAddVolume">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+        新建分卷
+      </button>
+    </div>
+  </aside>
+
+  <main class="editor-area" id="editorArea">
+    <div class="paper">
+      <input id="chapterTitle" class="chapter-title" type="text" placeholder="章节标题" spellcheck="false">
+      <textarea id="editor" placeholder="从这里开始你的故事……" spellcheck="false"></textarea>
+    </div>
+    <footer class="statusbar">
+      <span id="stChapter">本章 0 字</span>
+      <span class="dot">·</span>
+      <span id="stTotal">全书 0 字</span>
+      <span class="dot">·</span>
+      <span id="stSaved">尚未保存</span>
+      <span class="spacer"></span>
+      <button class="mini-btn" id="btnFontMinus" title="减小字号">A−</button>
+      <button class="mini-btn" id="btnFontPlus" title="增大字号">A+</button>
+    </footer>
+  </main>
+
+  <aside class="panel" id="panel">
+    <nav class="panel-tabs">
+      <button data-tab="outline" title="大纲"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg><span>大纲</span></button>
+      <button data-tab="chars" title="角色"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>角色</span></button>
+      <button data-tab="notes" title="设定"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg><span>设定</span></button>
+      <button data-tab="inspire" title="灵感"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3Z"/><path d="M5 3v4"/><path d="M3 5h4"/><path d="M19 17v4"/><path d="M17 19h4"/></svg><span>灵感</span></button>
+      <button data-tab="stats" title="统计"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg><span>统计</span></button>
+    </nav>
+    <div class="panel-body" id="panelBody"></div>
+  </aside>
+</div>
+
+<input type="file" id="importFile" accept=".json" hidden>
+<script src="app.js?v=11"></script>
+<script src="graph.js?v=13"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

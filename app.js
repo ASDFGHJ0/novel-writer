@@ -64,6 +64,9 @@ function seedProject() {
     notes: [],
     customCamps: [],
     campColors: {},
+    manualRels: [],
+    bookmarks: [],
+    graphSettings: { layout: 'force', currentChapter: null },
     removedRels: [],
     trash: [],
     characterAnnotations: [],
@@ -310,6 +313,7 @@ function renderCards(kind) {
     const tag = $('.tag-select', card);
     if (tag) tag.addEventListener('change', e => { item.tag = e.target.value; setDirty(); });
     $('[data-act="del"]', card).addEventListener('click', () => {
+      if (isChar && window.MoyuWorkspace) window.MoyuWorkspace.trash('character', item);
       const i = list.indexOf(item);
       if (i > -1) list.splice(i, 1);
       renderCards(kind); setDirty();
@@ -460,6 +464,7 @@ function importJson(file) {
       proj.removedRels = proj.removedRels || [];
       proj.graphSettings = proj.graphSettings || { layout: 'force', currentChapter: null };
       proj.synopsis = proj.synopsis || '';
+      migrateProject(proj);
       state.projects.push(proj);
       state.activeProjectId = proj.id;
       const first = proj.tree.flatMap(v => v.chapters)[0];
@@ -536,8 +541,8 @@ function bindEvents() {
     state.activeChapterId = first ? first.id : null;
     renderAll(); persist();
   });
-  el.btnNewProject.addEventListener('click', () => {
-    const name = prompt('新作品的名字:', '未命名作品');
+  el.btnNewProject.addEventListener('click', async () => {
+    const name = window.MoyuWorkspace ? await window.MoyuWorkspace.ask('新作品的名字', '未命名作品') : prompt('新作品的名字:', '未命名作品');
     if (name === null) return;
     const p = seedProject();
     p.title = name.trim() || '未命名作品';

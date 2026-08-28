@@ -1251,8 +1251,8 @@ window.MoyuGraph = (() => {
   }
 
   /* ---------- 时间轴 / 书签 / 路径 / 导出 ---------- */
-  function saveBookmark() {
-    const name = prompt('给这个视角起个名字');
+  async function saveBookmark() {
+    const name = window.MoyuWorkspace ? await window.MoyuWorkspace.ask('给这个视角起个名字', '') : prompt('给这个视角起个名字');
     if (!name) return;
     const r = canvas.parentElement.getBoundingClientRect();
     const c = screenToWorld(r.width / 2, r.height / 2);

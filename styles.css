@@ -723,3 +723,5 @@ body.focus .paper { width: min(820px, calc(100% - 64px)); }
   background: var(--paper); color: var(--ink);
 }
 .camp-add-row #newCampName:focus { outline: none; border-color: var(--accent-line); }
+
+.version-badge{margin-left:6px;border:1px solid var(--accent-line);border-radius:10px;padding:2px 6px;background:var(--accent-soft);color:var(--accent);font-size:10px;font-weight:600}

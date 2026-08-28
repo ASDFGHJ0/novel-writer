@@ -65,6 +65,10 @@ function seedProject() {
     customCamps: [],
     campColors: {},
     removedRels: [],
+    trash: [],
+    characterAnnotations: [],
+    storyEvents: [],
+    foreshadows: [],
     daily: {},
     createdAt: Date.now(),
   };
@@ -88,6 +92,16 @@ function loadState() {
 }
 
 let state = loadState();
+function migrateProject(p) {
+  p.chars = p.chars || []; p.notes = p.notes || []; p.manualRels = p.manualRels || [];
+  p.bookmarks = p.bookmarks || []; p.customCamps = p.customCamps || []; p.campColors = p.campColors || {};
+  p.removedRels = p.removedRels || []; p.trash = p.trash || []; p.characterAnnotations = p.characterAnnotations || [];
+  p.storyEvents = p.storyEvents || []; p.foreshadows = p.foreshadows || [];
+  p.graphSettings = p.graphSettings || { layout: 'force', currentChapter: null };
+  p.chars.forEach(c => { c.alias = c.alias || []; c.profile = c.profile || {}; c.evidence = c.evidence || []; });
+  return p;
+}
+state.projects.forEach(migrateProject);
 
 const persist = () => localStorage.setItem(LS_KEY, JSON.stringify(state));
 const persistSoon = debounce(() => { persist(); setSaved(); }, 600);
@@ -123,7 +137,7 @@ function setSaved() {
   const d = new Date();
   el.stSaved.textContent = `已保存 ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 }
-function setDirty() { el.stSaved.textContent = '保存中…'; persistSoon(); }
+function setDirty() { el.stSaved.textContent = '保存中…'; persistSoon(); if (window.MoyuWorkspace) window.MoyuWorkspace.captureSoon(); }
 
 /* ---------- 字数 / 目标环 ---------- */
 function bumpDaily(delta) {
@@ -547,7 +561,8 @@ function bindEvents() {
         const { vol, ch } = locate(chItem.dataset.id) || {};
         if (!ch) return;
         if (act === 'rename') startRename(chItem, ch.title, v => { ch.title = v; if (ch.id === state.activeChapterId) renderEditor(); setDirty(); });
-        if (act === 'del-ch' && confirm(`删除「${ch.title}」?此操作不可撤销。`)) {
+        if (act === 'del-ch' && confirm(`删除「${ch.title}」?可在回收站恢复。`)) {
+          if (window.MoyuWorkspace) window.MoyuWorkspace.trash('chapter', ch, { volumeId: vol.id, volumeTitle: vol.title });
           vol.chapters.splice(vol.chapters.indexOf(ch), 1);
           if (state.activeChapterId === ch.id) {
             const next = project().tree.flatMap(v => v.chapters)[0];
@@ -561,8 +576,9 @@ function bindEvents() {
         if (!vol) return;
         if (act === 'add-ch') addChapter(vol.id);
         if (act === 'rename') startRename(volHeader, vol.title, v => { vol.title = v; setDirty(); });
-        if (act === 'del-vol' && confirm(`删除分卷「${vol.title}」及其中 ${vol.chapters.length} 个章节?`)) {
+        if (act === 'del-vol' && confirm(`删除分卷「${vol.title}」及其中 ${vol.chapters.length} 个章节?可在回收站恢复。`)) {
           const p = project();
+          if (window.MoyuWorkspace) window.MoyuWorkspace.trash('volume', vol);
           p.tree.splice(p.tree.indexOf(vol), 1);
           if (!locate(state.activeChapterId)) {
             const next = p.tree.flatMap(v => v.chapters)[0];
@@ -720,7 +736,7 @@ window.Moyu = {
   deleteManualRel(id) {
     const p = project();
     const i = p.manualRels.findIndex(x => x.id === id);
-    if (i > -1) { p.manualRels.splice(i, 1); setDirty(); }
+    if (i > -1) { if (window.MoyuWorkspace) window.MoyuWorkspace.trash('relation', p.manualRels[i]); p.manualRels.splice(i, 1); setDirty(); }
   },
   saveGraphState(patch) {
     const p = project();
@@ -752,6 +768,11 @@ window.Moyu = {
   getChapterCount() {
     return chapterCount(project());
   },
+  getActiveChapter: activeChapter,
+  saveCharacterAnnotation(annotation) { project().characterAnnotations.push(annotation); setDirty(); },
+  openChapter(chapterId) { if (!locate(chapterId)) return; state.activeChapterId = chapterId; renderTree(); renderEditor(); renderPanel(); persist(); el.editor.focus(); },
+  refresh() { renderAll(); persist(); },
+  touch: setDirty,
 };
 
 applyTheme();

@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>墨屿 · 小说写作台</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=17">
+<link rel="stylesheet" href="workspace-tools.css?v=1">
 </head>
 <body>
 <header class="topbar">
@@ -35,6 +36,9 @@
     <button class="icon-btn" id="btnFocus" title="专注模式">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
     </button>
+    <button class="text-tool-btn" id="btnHistory">历史</button>
+    <button class="text-tool-btn" id="btnTrash">回收站</button>
+    <button class="text-tool-btn" id="btnWorkspace">故事资料库</button>
     <button class="icon-btn" id="btnGraph" title="人物关系网">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4"/><path d="m15.4 6.5-6.8 4"/></svg>
     </button>
@@ -105,7 +109,8 @@
 </div>
 
 <input type="file" id="importFile" accept=".json" hidden>
-<script src="app.js?v=13"></script>
+<script src="app.js?v=17"></script>
 <script src="graph.js?v=16"></script>
+<script src="workspace-tools.js?v=1"></script>
 </body>
 </html>

@@ -128,7 +128,7 @@ const el = {
   bookTitle: $('#bookTitle'), ring: $('#goalRing'), ringFg: $('#ringFg'), ringNum: $('#ringNum'),
   searchInput: $('#searchInput'), searchResults: $('#searchResults'),
   btnFocus: $('#btnFocus'), btnGraph: $('#btnGraph'), btnTheme: $('#btnTheme'),
-  btnExport: $('#btnExport'), exportMenu: $('#exportMenu'),
+  btnExport: $('#btnExport'), exportMenu: $('#exportMenu'), btnImportProject: $('#btnImportProject'),
   projectSelect: $('#projectSelect'), btnNewProject: $('#btnNewProject'),
   tree: $('#tree'), btnAddChapter: $('#btnAddChapter'), btnAddVolume: $('#btnAddVolume'),
   chapterTitle: $('#chapterTitle'), editor: $('#editor'),

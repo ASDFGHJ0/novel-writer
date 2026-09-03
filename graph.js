@@ -15,12 +15,23 @@ window.MoyuGraph = (() => {
       edge: ['#31393f', '#3f5b53', '#3f8f7c'],
       label: '#d9dde1', labelSoft: '#7d868d', selRing: '#35a892', dimAlpha: 0.16,
     },
-  };
-  const pal = () => PALETTES[document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'];
+    ink: {
+      node: { '主角': '#315f52', '配角': '#9a722c', '反派': '#a94635', '其他': '#74766e' },
+      edge: ['#c7c0b1', '#899b91', '#486f63'],
+      label: '#272824', labelSoft: '#77776e', selRing: '#a94635', dimAlpha: 0.2,
+    },
+    future: {
+      node: { '主角': '#4bd7ed', '配角': '#8f74ff', '反派': '#ff765f', '其他': '#6e91ad' },
+      edge: ['#1b354e', '#276b87', '#43c9df'],
+      label: '#dce9f4', labelSoft: '#70869b', selRing: '#8f74ff', dimAlpha: 0.12,
+    },  };
+  const pal = () => PALETTES[document.documentElement.dataset.theme] || PALETTES.light;
 
   const CAMP_COLORS = {
     light: { '正派': '#14675a', '邪派': '#b23c2a', '中立': '#77807f', '其他': '#b07d2b' },
     dark: { '正派': '#35a892', '邪派': '#e06a50', '中立': '#7d868d', '其他': '#d0a04a' },
+    ink: { '正派': '#315f52', '邪派': '#a94635', '中立': '#74766e', '其他': '#9a722c' },
+    future: { '正派': '#4bd7ed', '邪派': '#ff765f', '中立': '#6e91ad', '其他': '#8f74ff' },
   };
   const CAMPS = ['正派', '邪派', '中立', '其他'];
   const STATUSES = ['活跃', '死亡', '失踪', '离线'];
@@ -247,7 +258,7 @@ window.MoyuGraph = (() => {
     if (colors[camp]) return colors[camp];
     const hit = custom.find(c => c.name === camp);
     if (hit && hit.color) return hit.color;
-    const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    const theme = CAMP_COLORS[document.documentElement.dataset.theme] ? document.documentElement.dataset.theme : 'light';
     return CAMP_COLORS[theme][camp] || CAMP_COLORS[theme]['其他'];
   }
 

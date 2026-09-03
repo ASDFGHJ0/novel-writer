@@ -649,9 +649,19 @@ function bindEvents() {
     if (e.key === 'Escape' && document.body.classList.contains('focus')) el.btnFocus.click();
   });
 
-  el.btnTheme.addEventListener('click', () => {
-    state.settings.theme = state.settings.theme === 'dark' ? 'light' : 'dark';
+  const themeMenu = $('#themeMenu');
+  el.btnTheme.addEventListener('click', e => {
+    e.stopPropagation();
+    themeMenu.hidden = !themeMenu.hidden;
+    el.btnTheme.setAttribute('aria-expanded', String(!themeMenu.hidden));
+  });
+  themeMenu.addEventListener('click', e => {
+    const option = e.target.closest('[data-theme-option]');
+    if (!option) return;
+    state.settings.theme = option.dataset.themeOption;
     applyTheme(); persist();
+    themeMenu.hidden = true;
+    el.btnTheme.setAttribute('aria-expanded', 'false');
   });
 
   el.btnExport.addEventListener('click', e => {
@@ -672,6 +682,7 @@ function bindEvents() {
   });
   document.addEventListener('click', e => {
     if (!e.target.closest('.menu-wrap')) el.exportMenu.hidden = true;
+    if (!e.target.closest('.theme-wrap')) { themeMenu.hidden = true; el.btnTheme.setAttribute('aria-expanded', 'false'); }
     if (!e.target.closest('.search-box')) el.searchResults.hidden = true;
   });
 
@@ -694,7 +705,13 @@ function bindEvents() {
 
 /* ---------- 初始化 ---------- */
 function applyTheme() {
+  const names = { light: '明亮', dark: '深色', ink: '水墨', future: '未来' };
+  if (!names[state.settings.theme]) state.settings.theme = 'light';
   document.documentElement.dataset.theme = state.settings.theme;
+  if (el.btnTheme) {
+    el.btnTheme.title = '当前：' + names[state.settings.theme] + ' · 点击选择主题';
+    document.querySelectorAll('[data-theme-option]').forEach(b => b.classList.toggle('active', b.dataset.themeOption === state.settings.theme));
+  }
 }
 function setFontSize(px) {
   state.settings.fontSize = Math.min(24, Math.max(13, px));

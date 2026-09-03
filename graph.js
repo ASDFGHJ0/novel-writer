@@ -595,6 +595,24 @@ window.MoyuGraph = (() => {
       if (e.direction === 'one-way') {
         drawArrow(cpx, cpy, e.b.x, e.b.y, ctx.strokeStyle, ctx.lineWidth);
       }
+      if (e.source === 'manual' && (!sel || e.a === sel || e.b === sel)) {
+        const label = (relation.type || '关系').slice(0, 8);
+        ctx.save();
+        ctx.font = '600 11px sans-serif';
+        const labelWidth = ctx.measureText(label).width + 16;
+        ctx.globalAlpha = dim ? P.dimAlpha : 0.96;
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--paper').trim() || '#fff';
+        ctx.beginPath();
+        ctx.roundRect(cpx - labelWidth / 2, cpy - 11, labelWidth, 22, 11);
+        ctx.fill();
+        ctx.strokeStyle = P.edge[Math.min(2, relLevel(e.w))];
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.fillStyle = P.label;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(label, cpx, cpy);
+        ctx.restore();
+      }
     }
     ctx.globalAlpha = 1;
 
@@ -690,8 +708,8 @@ window.MoyuGraph = (() => {
       .sort((a, b) => b.n - a.n);
 
     let main = '';
-    if (selEdge) main = renderEdgeEditor(selEdge);
-    else if (sel) main = renderPersonEditor(sel) + renderRelations(data, sel);
+    if (selEdge) main = renderEdgeWorkspace(selEdge);
+    else if (sel) main = renderPersonWorkspace(sel, data);
     else main = renderPersonList(persons) + renderCandidates(data) + renderRemovedRels() + renderCampManager();
 
     side.innerHTML = `
@@ -744,6 +762,49 @@ window.MoyuGraph = (() => {
     </div>`;
   }
 
+  function graphChapters() {
+    const out = [];
+    (window.Moyu.getProject().tree || []).forEach(v => (v.chapters || []).forEach((c, i) => out.push({ id: c.id, title: c.title, volume: v.title, content: c.content || '', index: out.length + 1 })));
+    return out;
+  }
+
+  function graphChapterName(id, fallback = '未绑定章节') {
+    const c = graphChapters().find(x => x.id === id);
+    return c ? c.title : fallback;
+  }
+
+  function stageAt(edge) {
+    return relationAt(edge).stage;
+  }
+
+  function renderPersonWorkspace(node, data) {
+    const c = (window.Moyu.getProject().chars || []).find(x => x.name === node.name) || node;
+    const profile = c.profile || {};
+    const knowledge = (window.Moyu.getProject().knowledgeFacts || []).filter(x => x.characterName === c.name);
+    const initial = escapeHtml((c.name || '?').slice(0, 1));
+    const avatar = c.avatar ? `<img src="${escapeHtml(c.avatar)}" alt="">` : `<span>${initial}</span>`;
+    const facts = [
+      ['身份', profile.surfaceIdentity || profile.storyRole || c.tag || '尚未填写'],
+      ['性格', profile.traits || '尚未填写'],
+      ['动机', profile.motivation || '尚未填写'],
+      ['恐惧', profile.fear || '尚未填写']
+    ];
+    return `<section class="graph-inspector-head"><small>人物档案</small><div class="graph-person-hero"><div class="graph-avatar" style="--avatar-color:${c.color || campColor(c.camp)}">${avatar}</div><div><h2>${escapeHtml(c.name)}</h2><p>${escapeHtml(c.camp || '中立')} · ${escapeHtml(c.status || '活跃')}</p></div></div><p class="graph-character-line">${escapeHtml(profile.summary || c.desc || '尚未填写人物判词')}</p><button class="add-block" data-open-profile="${escapeHtml(c.name)}">打开完整人物档案</button></section><div class="graph-fact-grid">${facts.map(x => `<div><small>${x[0]}</small><p>${escapeHtml(x[1])}</p></div>`).join('')}</div>${knowledge.length ? `<div class="graph-section"><div class="gs-cap"><span>已知信息</span><span>${knowledge.length}</span></div>${knowledge.slice(0, 4).map(k => `<article class="graph-knowledge"><b>${escapeHtml(k.fact)}</b><small>${escapeHtml(graphChapterName(k.learnedChapterId))} 获知</small></article>`).join('')}</div>` : ''}<details class="graph-edit-details"><summary>编辑人物基础属性</summary>${renderPersonEditor(node)}</details>${renderRelations(data, node)}`;
+  }
+
+  function renderEvidenceCards(items) {
+    return items.length ? items.map(x => `<button class="graph-proof-card" data-open-chapter="${x.chapterId || ''}"><span>${escapeHtml(x.title || graphChapterName(x.chapterId))}</span><p>${escapeHtml((x.text || '').slice(0, 110))}</p><small>返回正文核对 →</small></button>`).join('') : '<div class="gs-empty">尚未绑定正文证据。可在故事资料库的“关系演化”中添加。</div>';
+  }
+
+  function renderEdgeWorkspace(edge) {
+    const relation = relationAt(edge);
+    const stages = (edge.stages || []).slice().sort((a, b) => (a.startChapter || 1) - (b.startChapter || 1));
+    const current = stageAt(edge);
+    const project = window.Moyu.getProject();
+    const events = project.storyEvents || [];
+    const evidence = current && current.evidence && current.evidence.length ? current.evidence : (edge.evidence || []);
+    return `<section class="graph-inspector-head relation"><small>关系档案</small><h2>${escapeHtml(edge.a.name)} <span>${edge.direction === 'one-way' ? '→' : '↔'}</span> ${escapeHtml(edge.b.name)}</h2><div class="graph-current-relation"><small>${current ? '当前章节阶段' : '当前关系'}</small><strong>${escapeHtml(relation.type || '未定义')}</strong><p>${escapeHtml(relation.desc || '尚未填写变化原因')}</p></div></section>${stages.length ? `<div class="graph-section"><div class="gs-cap"><span>关系演化</span><span>${stages.length} 个阶段</span></div><div class="graph-stage-line">${stages.map(s => { const active = current && current.id === s.id; const event = events.find(e => e.id === s.eventId); return `<button class="graph-stage-point ${active ? 'active' : ''}" data-stage-chapter="${s.startChapterId || ''}"><i></i><span>${escapeHtml(s.type || '未定义')}</span><small>${escapeHtml(graphChapterName(s.startChapterId, s.start || '故事开始'))}</small>${event ? `<em>${escapeHtml(event.title)}</em>` : ''}</button>`; }).join('')}</div></div>` : '<div class="gs-empty">尚未划分关系阶段。</div>'}<div class="graph-section"><div class="gs-cap"><span>正文证据</span><span>${evidence.length}</span></div><div class="graph-proof-list">${renderEvidenceCards(evidence)}</div></div><button class="add-block" data-open-relations>在故事资料库管理阶段与证据</button><details class="graph-edit-details"><summary>编辑关系基础属性</summary>${renderEdgeEditor(edge)}</details>`;
+  }
   function renderPersonEditor(node) {
     const c = node;
     return `<div class="gs-editor">
@@ -848,6 +909,19 @@ window.MoyuGraph = (() => {
     const statusSel = side.querySelector('#graphStatusFilter');
     if (statusSel) statusSel.addEventListener('change', () => { side.dataset.status = statusSel.value; renderSide(data); });
 
+    side.querySelectorAll('[data-open-chapter],[data-stage-chapter]').forEach(btn => btn.addEventListener('click', () => {
+      const id = btn.dataset.openChapter || btn.dataset.stageChapter;
+      if (id) { close(); window.Moyu.openChapter(id); }
+    }));
+    side.querySelectorAll('[data-open-profile]').forEach(btn => btn.addEventListener('click', () => {
+      close();
+      if (window.MoyuWorkspace) window.MoyuWorkspace.openCharacter(btn.dataset.openProfile);
+    }));
+    const openRelations = side.querySelector('[data-open-relations]');
+    if (openRelations) openRelations.addEventListener('click', () => {
+      close();
+      if (window.MoyuWorkspace) window.MoyuWorkspace.open('relations');
+    });
     const savePerson = side.querySelector('#savePerson');
     if (savePerson) savePerson.addEventListener('click', () => {
       const node = sim.sel;

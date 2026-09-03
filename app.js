@@ -664,6 +664,8 @@ function bindEvents() {
     el.btnTheme.setAttribute('aria-expanded', 'false');
   });
 
+  el.btnImportProject.addEventListener('click', () => el.importFile.click());
+
   el.btnExport.addEventListener('click', e => {
     e.stopPropagation();
     el.exportMenu.hidden = !el.exportMenu.hidden;

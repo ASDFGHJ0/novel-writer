@@ -103,7 +103,7 @@ function migrateProject(p) {
   p.storyEvents = p.storyEvents || []; p.knowledgeFacts = p.knowledgeFacts || []; p.foreshadows = p.foreshadows || [];
   p.manualRels.forEach(r => { r.stages = r.stages || []; r.evidence = r.evidence || []; });
   p.graphSettings = p.graphSettings || { layout: 'force', currentChapter: null };
-  p.chars.forEach(c => { c.alias = c.alias || []; c.profile = c.profile || {}; c.evidence = c.evidence || []; });
+  p.chars.forEach(c => { c.alias = c.alias || []; c.profile = c.profile || {}; c.evidence = c.evidence || []; c.suggestionDismissed = c.suggestionDismissed || []; });
   return p;
 }
 state.projects.forEach(migrateProject);
@@ -270,7 +270,7 @@ function setTab(tab) {
 function renderPanel() {
   const tab = state.settings.tab;
   if (tab === 'outline') renderOutline();
-  else if (tab === 'chars') renderCards('chars');
+  else if (tab === 'chars') renderCharacterCards();
   else if (tab === 'notes') renderCards('notes');
   else if (tab === 'inspire') renderInspire();
   else if (tab === 'stats') renderStats();
@@ -290,6 +290,35 @@ function renderOutline() {
   if (co && found) co.addEventListener('input', e => { found.ch.outline = e.target.value; setDirty(); });
 }
 
+function profileCompletion(c) {
+  const p = c.profile || {};
+  const keys = ['fullName', 'appearance', 'traits', 'motivation', 'fear', 'background', 'storyRole', 'arc', 'summary'];
+  return Math.round(keys.filter(k => String(p[k] || '').trim()).length / keys.length * 100);
+}
+
+function renderCharacterCards() {
+  const list = project().chars || [];
+  el.panelBody.innerHTML = `<div class="role-panel-intro"><b>人物档案</b><span>从正文证据整理，不直接替你下结论</span></div>${list.map(c => {
+    const p = c.profile || {};
+    const initial = esc((c.name || '?').slice(0, 1));
+    const summary = p.summary || c.desc || '尚未填写人物判词';
+    const identity = p.surfaceIdentity || p.storyRole || c.tag || '配角';
+    return `<article class="card role-summary-card" data-id="${c.id}"><header><div class="role-mini-avatar" style="--role-color:${c.color || '#6f8f86'}">${c.avatar ? `<img src="${esc(c.avatar)}" alt="">` : initial}</div><div class="role-card-title"><h3>${esc(c.name || '未命名角色')}</h3><p>${esc(identity)}</p></div><span class="role-tag">${esc(c.tag || '配角')}</span></header><p class="role-card-summary">${esc(summary)}</p><div class="role-card-meta"><span>${esc(c.camp || '中立')} · ${esc(c.status || '活跃')}</span><span>档案 ${profileCompletion(c)}%</span><span>${(c.evidence || []).length} 条证据</span></div><div class="role-progress"><i style="width:${profileCompletion(c)}%"></i></div><footer class="card-actions"><button class="link-btn role-main-action" data-ws-profile data-role-profile="${esc(c.name)}">查看档案</button><button class="link-btn" data-role-organize="${esc(c.name)}">从正文整理</button><button class="link-btn" data-role-delete>${ICONS.trash}删除</button></footer></article>`;
+  }).join('') || '<div class="outline-empty">还没有角色。可从正文选中文字并标记为角色。</div>'}<button class="add-block" id="addCharacterCard">${ICONS.plus}添加角色</button>`;
+  $$('[data-role-profile]', el.panelBody).forEach(b => b.addEventListener('click', () => window.MoyuWorkspace && window.MoyuWorkspace.openCharacter(b.dataset.roleProfile)));
+  $$('[data-role-organize]', el.panelBody).forEach(b => b.addEventListener('click', () => window.MoyuWorkspace && window.MoyuWorkspace.openCharacter(b.dataset.roleOrganize, true)));
+  $$('[data-role-delete]', el.panelBody).forEach(b => b.addEventListener('click', () => {
+    const card = b.closest('[data-id]'), c = list.find(x => x.id === card.dataset.id);
+    if (!c || !confirm(`删除角色“${c.name || '未命名'}”？可在回收站恢复。`)) return;
+    if (window.MoyuWorkspace) window.MoyuWorkspace.trash('character', c);
+    list.splice(list.indexOf(c), 1); renderCharacterCards(); setDirty();
+  }));
+  $('#addCharacterCard').addEventListener('click', async () => {
+    const name = window.MoyuWorkspace ? await window.MoyuWorkspace.ask('角色名') : prompt('角色名');
+    if (!name || !name.trim()) return;
+    window.Moyu.addCharacter(name.trim()); renderCharacterCards();
+  });
+}
 const CHAR_TAGS = ['主角', '配角', '反派', '其他'];
 function renderCards(kind) {
   const p = project();

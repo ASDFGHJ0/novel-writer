@@ -1,0 +1,624 @@
+{
+  "app": "moyu",
+  "version": 1,
+  "project": {
+    "id": "tide-letter-demo",
+    "title": "潮汐密信",
+    "synopsis": "档案馆抄录员苏遥带着一封禁库密信逃往旧港，与身份成谜的林默相遇。一次被迫同行逐渐建立信任，却也揭开王储、身份、父辈旧案与昔日挚友的背叛。四章故事完整展示人物关系从戒备、合作、决裂到主动信任的变化。",
+    "tree": [
+      {
+        "id": "tide-vol-1",
+        "title": "第1卷 潮钟旧案",
+        "closed": false,
+        "chapters": [
+          {
+            "id": "tide-ch-1",
+            "title": "第1章 退潮之路",
+            "content": "临潮城每逢朔夜，海水都会退到城墙之外，露出一条通往旧港的黑色石路。老人们说，路的尽头埋着上一任守潮人的名字。\n\n苏遥撑着一把青骨伞走上石路时，雨刚落下来。她在城中档案馆做抄录员，袖中却藏着一封从禁库取出的密信。信封没有署名，只画着一枚被浪头劈开的王冠。\n\n旧港的钟楼下站着一个年轻男人。林默背对海面，像是在等她，又像只是恰好被夜色遗忘在那里。他的左手缠着旧绷带，腰间挂着一枚停走的铜怀表。\n\n“把信给我。”林默说。\n\n苏遥没有收伞。“档案馆失火那晚，也有人对我说过同样的话。”\n\n两人都没有再动。远处忽然亮起巡潮司的灯，十几道马蹄声从堤岸逼近。为首的人是顾衍，巡潮司最年轻的指挥使。他勒马停在石路入口，隔着雨幕喊出林默的名字。\n\n林默眼神一沉，伸手抓住苏遥的手腕，把她带进钟楼。苏遥的短刃同时抵住了他的肋下。\n\n“你究竟是谁？”她低声问。\n\n“一个不想让你死在这里的人。”\n\n钟楼地板下藏着一条废弃水道。林默推开锈死的铁门，让苏遥先走。身后的箭擦过他的肩，钉进门框。他没有喊疼，只把那枚怀表塞进苏遥手里。\n\n“如果我们走散，去白汐灯塔。”\n\n苏遥低头看见表盖内侧刻着两个极小的字：长昼。那是十二年前覆灭的王族年号。",
+            "outline": "苏遥携密信前往旧港，与林默初遇；巡潮司指挥使顾衍追捕二人，怀表暴露王族线索。"
+          },
+          {
+            "id": "tide-ch-2",
+            "title": "第2章 暴雨同行",
+            "content": "废弃水道通向城外盐沼。暴雨灌进低洼处，水很快漫到膝盖。苏遥几次想甩开林默独自离开，却发现巡潮司的火把始终沿着她原定的退路移动。\n\n“顾衍知道你的路线。”林默靠在石壁上重新包扎肩伤，“档案馆里有人一直在看着你。”\n\n“也可能是你把他们引来的。”\n\n林默笑了一下，没有辩解。他取出一张被水浸软的潮汐图，指出盐沼深处的一座旧闸。只有在今夜最低潮时，闸门后的暗渠才会通往白汐灯塔。\n\n两人赶到旧闸时，顾衍已经等在那里。他没有带弓弩手，只提着一盏蓝灯。\n\n“阿默，回来。”顾衍说，“议政厅答应重审十二年前的案子。”\n\n这是苏遥第一次听见有人这样称呼林默。林默的手指在怀表留下的空处轻轻一握，声音却很平静：“他们烧掉证人时，也说过会重审。”\n\n顾衍将蓝灯放在地上。“你身边的人都会因你而死。以前是你母亲，现在会是她。”\n\n话音未落，埋伏在芦苇中的弩箭骤然射出。顾衍脸色变了——下令的人并不是他。林默扑倒苏遥，箭簇穿过他的外衣。苏遥割断旧闸绳索，蓄水轰然冲进盐沼，把追兵和蓝灯一起卷走。\n\n暗渠入口只剩半人高。林默让苏遥先爬进去，自己留在后面挡住追来的士兵。苏遥爬出几步，又逆着水流回来，将他拖进暗渠。\n\n“别误会。”她喘着气说，“密信还在你身上。”\n\n“当然。”林默望着她，第一次真正笑了，“我们只是暂时盟友。”\n\n黎明前，他们抵达白汐灯塔。苏遥把青骨伞撑在门边，林默点燃壁炉。两个人谁也没有说信任，但苏遥把密信放在了他们之间的桌面上。",
+            "outline": "林默与苏遥穿越盐沼，顾衍；第三方伏击迫使两人互救，关系转为暂时盟友。"
+          },
+          {
+            "id": "tide-ch-3",
+            "title": "第3章 镜中密信",
+            "content": "白汐灯塔的顶层没有灯，只有一面朝向王城的巨大铜镜。密信靠近镜面时，空白纸页上浮出银色字迹：先王遗诏藏在潮钟之下，唯一能开启钟室的人，拥有王族的血。\n\n苏遥看完最后一行，抬头望向林默。铜怀表、长昼年号、顾衍口中的“阿默”，所有零散线索在这一刻合拢。\n\n“你是失踪的王储。”\n\n林默沉默良久，承认了。他本名林昭，十二年前宫变时被守潮人从火场带走。林默只是一个死人名册上的名字，足够普通，也足够安全。\n\n苏遥把密信折回原样。“所以你接近我，是因为我能替你进入档案馆。”\n\n“最开始是。”\n\n“后来呢？”\n\n楼下传来门轴转动的声音。顾衍独自走上楼梯，把佩刀留在门外。他交给苏遥一册巡潮司密档：当年纵火令上，盖着她父亲苏衡的私印。\n\n苏遥的手开始发抖。顾衍告诉她，苏衡并非死于火灾，而是在事后成为议政厅的秘密证人；这些年苏遥收到的匿名线索，也一直来自他。\n\n“跟我走，我带你见他。”顾衍说。\n\n林默挡在门前。“那册密档少了最后一页。”\n\n顾衍没有否认。他真正的任务是带回王储，苏遥只是迫使林默现身的诱饵。苏遥看向林默，等他否认自己也利用了她，可林默只是说：“我确实需要那封信。”\n\n这句诚实比谎言更锋利。苏遥将怀表放回桌上，转身跟顾衍下楼。\n\n走到塔门时，她听见潮钟第一次响起。钟声并非来自城中，而是来自脚下。整座灯塔就是遗诏所说的潮钟。\n\n顾衍也停住了。他回头的一瞬，苏遥看见他袖口沾着尚未干透的银色封蜡——与密信上的封蜡一模一样。",
+            "outline": "苏遥得知林默的王储身份，又被顾衍用父亲消息动摇；她因林默最初的利用而离开。"
+          },
+          {
+            "id": "tide-ch-4",
+            "title": "第4章 潮钟之下",
+            "content": "苏遥没有揭穿顾衍。她跟着他穿过灯塔下层，在潮声最响的石壁前故意问起父亲。顾衍说苏衡被保护在王城西塔，可密档记载，西塔三年前已经坍塌。\n\n“你从来没有见过他。”苏遥说。\n\n顾衍握住刀柄。与此同时，林默从楼梯阴影里走出。他没有拿桌上的怀表，却带来了密信缺失的最后一页。那一页写着苏衡真正留下的话：印章可以伪造，潮汐不会说谎。宫变当夜，纵火令签发时苏衡正在城外测潮。\n\n顾衍终于承认，匿名线索与密信都出自他手。他想利用苏遥找到林默，再用林默开启钟室，夺走足以推翻议政厅的遗诏。他曾是林默少年时最信任的伴读，也因此最清楚怎样逼他现身。\n\n“你总要相信一个人，阿默。”顾衍拔刀，“这就是你的弱点。”\n\n“不是。”林默看向苏遥，“这是我最后还能选择的东西。”\n\n顾衍冲向石壁机关。苏遥先一步将青骨伞插进齿轮，林默则把那枚停走的怀表按入凹槽。潮钟轰鸣，石壁向两侧裂开，海水在透明的古老闸门后翻涌。遗诏不是一卷纸，而是刻满整面钟室的证词，任何人都无法独自带走或销毁。\n\n顾衍在震动中失足，林默抓住了他的手。两人隔着断裂的石阶对视，像重新看见许多年前并肩读书的少年。顾衍最终松开刀，任由巡潮司后来赶到的人将他带走。\n\n天亮时，苏遥站在灯塔外，把铜怀表还给林默。指针在潮钟开启后重新走动，发出细小而固执的声音。\n\n“遗诏公开以后，你会回王城吗？”她问。\n\n“会。但不是去继承那把椅子。”林默说，“我要让十二年前所有被删掉的名字重新出现。”\n\n苏遥撑开青骨伞。雨已经停了，伞下却仍留下两个人的位置。\n\n“那就走吧。”她说，“这一次不是暂时盟友。”\n\n两人沿黑色石路返回临潮城。身后海水重新漫过旧港，将来路藏起；前方第一缕晨光落在城墙上，像一页终于可以重新书写的纸。",
+            "outline": "苏遥识破顾衍谎言，与林默开启钟室并公开遗诏；两人从暂时合作走向主动信任。"
+          }
+        ]
+      }
+    ],
+    "chars": [
+      {
+        "id": "tide-role-lin",
+        "name": "林默",
+        "tag": "主角",
+        "desc": "藏起王冠，却不愿丢掉名字的人",
+        "alias": [
+          "林昭",
+          "阿默",
+          "王储"
+        ],
+        "camp": "正派",
+        "faction": "旧守潮人",
+        "status": "活跃",
+        "shape": "circle",
+        "core": true,
+        "avatar": "",
+        "color": "",
+        "profile": {
+          "fullName": "林昭",
+          "aliasesText": "林默、阿默、失踪王储",
+          "age": "二十七岁",
+          "gender": "男",
+          "body": "高瘦，长期逃亡留下旧伤",
+          "appearance": "黑发，神情沉静，左手常缠绷带",
+          "signature": "停走的铜怀表，左肩箭伤",
+          "surfaceIdentity": "流亡者、旧港引路人",
+          "hiddenIdentity": "十二年前失踪的王储林昭",
+          "traits": "克制、警惕、外冷内热",
+          "strengths": "承担风险，危急时优先保护同伴",
+          "flaws": "习惯隐瞒，常把利用包装成保护",
+          "speechStyle": "短句，很少解释，情绪越强烈语气越平静",
+          "background": "宫变中被守潮人救走，以死人名册上的名字生活",
+          "motivation": "公开宫变证词，让被抹去的人重新拥有名字",
+          "fear": "再次因自己的身份害死信任他的人",
+          "trauma": "母亲死于宫变火灾，挚友顾衍后来加入巡潮司",
+          "coreRelations": "苏遥：从利用对象到主动信任的同行者；顾衍：昔日挚友与现今宿敌",
+          "relationAttitude": "表面疏离，真实看法是宁愿自己承担危险",
+          "socialStatus": "旧王族唯一幸存者，却拒绝以血统索取王位",
+          "storyRole": "双主角之一",
+          "conflict": "必须借助他人揭露真相，却无法轻易相信任何人",
+          "arc": "从以隐瞒保护他人，成长为坦白身份并主动交付信任",
+          "items": "停走的铜怀表，表盖刻有长昼年号",
+          "summary": "藏起王冠，却要替所有无名者找回名字的人"
+        },
+        "evidence": [
+          {
+            "id": "char-evi-lin-1",
+            "chapterId": "tide-ch-1",
+            "title": "第1章 退潮之路",
+            "vol": "第1卷 潮钟旧案",
+            "text": "林默眼神一沉，伸手抓住苏遥的手腕，把她带进钟楼。",
+            "category": "event",
+            "categoryName": "关键事件",
+            "createdAt": 1788405792686
+          },
+          {
+            "id": "char-evi-lin-2",
+            "chapterId": "tide-ch-4",
+            "title": "第4章 潮钟之下",
+            "vol": "第1卷 潮钟旧案",
+            "text": "“这是我最后还能选择的东西。”",
+            "category": "motivation",
+            "categoryName": "动机与恐惧",
+            "createdAt": 1788405792686
+          }
+        ]
+      },
+      {
+        "id": "tide-role-su",
+        "name": "苏遥",
+        "tag": "主角",
+        "desc": "把怀疑当作盔甲，最终选择相信证据也相信人",
+        "alias": [
+          "阿遥",
+          "苏抄录"
+        ],
+        "camp": "正派",
+        "faction": "临潮档案馆",
+        "status": "活跃",
+        "shape": "diamond",
+        "core": true,
+        "avatar": "",
+        "color": "",
+        "profile": {
+          "fullName": "苏遥",
+          "aliasesText": "阿遥、苏抄录",
+          "age": "二十五岁",
+          "gender": "女",
+          "body": "身形敏捷，惯用短刃",
+          "appearance": "长发束起，常撑青骨伞",
+          "signature": "青骨伞、袖中短刃、记忆力极强",
+          "surfaceIdentity": "临潮档案馆抄录员",
+          "hiddenIdentity": "宫变测潮官苏衡之女，长期追查档案馆旧火",
+          "traits": "敏锐、倔强、重证据、戒备心强",
+          "strengths": "善于发现叙述漏洞，危机中果断",
+          "flaws": "害怕被利用，容易把隐瞒等同于背叛",
+          "speechStyle": "问题直接，常用事实逼迫对方回答",
+          "background": "父亲在旧案后失踪，她在档案馆中长大",
+          "motivation": "找出父亲失踪与档案馆火灾的真相",
+          "fear": "所有信任都只是别人布置的诱饵",
+          "trauma": "档案馆失火，父亲被认定为纵火者",
+          "coreRelations": "林默：从怀疑到并肩；顾衍：线索提供者与操纵者",
+          "relationAttitude": "表面冷静审问，真实上愿意为可信证据冒险",
+          "socialStatus": "档案体系底层抄录员，却掌握旧案索引方法",
+          "storyRole": "双主角之一",
+          "conflict": "追求绝对证据，却必须在人证不全时作出信任选择",
+          "arc": "从不相信任何人的叙述，到能在证据与行动中主动选择同伴",
+          "items": "青骨伞，伞柄内藏短刃",
+          "summary": "把怀疑磨成刀，也学会把伞留给同行者"
+        },
+        "evidence": [
+          {
+            "id": "char-evi-su-1",
+            "chapterId": "tide-ch-3",
+            "title": "第3章 镜中密信",
+            "vol": "第1卷 潮钟旧案",
+            "text": "这句诚实比谎言更锋利。苏遥将怀表放回桌上，转身跟顾衍下楼。",
+            "category": "relationship",
+            "categoryName": "人物关系",
+            "createdAt": 1788405792686
+          },
+          {
+            "id": "char-evi-su-2",
+            "chapterId": "tide-ch-4",
+            "title": "第4章 潮钟之下",
+            "vol": "第1卷 潮钟旧案",
+            "text": "“那就走吧。”她说，“这一次不是暂时盟友。”",
+            "category": "relationship",
+            "categoryName": "人物关系",
+            "createdAt": 1788405792686
+          }
+        ]
+      },
+      {
+        "id": "tide-role-gu",
+        "name": "顾衍",
+        "tag": "反派",
+        "desc": "相信秩序胜过真相的昔日挚友",
+        "alias": [
+          "顾指挥使"
+        ],
+        "camp": "邪派",
+        "faction": "巡潮司",
+        "status": "活跃",
+        "shape": "hexagon",
+        "core": false,
+        "avatar": "",
+        "color": "",
+        "profile": {
+          "fullName": "顾衍",
+          "aliasesText": "顾指挥使",
+          "age": "二十八岁",
+          "gender": "男",
+          "body": "身形挺拔，右手有常年握刀的茧",
+          "appearance": "衣着严整，几乎从不显露疲惫",
+          "signature": "巡潮司蓝灯、银色封蜡",
+          "surfaceIdentity": "巡潮司指挥使",
+          "hiddenIdentity": "密信与匿名线索的制造者",
+          "traits": "理性、自负、控制欲强",
+          "strengths": "布局严密，了解人心与制度漏洞",
+          "flaws": "把人当作实现秩序的棋子",
+          "speechStyle": "温和克制，总以为对方着想的口吻施压",
+          "background": "少年时是林昭伴读，宫变后投靠巡潮司",
+          "motivation": "控制遗诏，以自己认可的方式重建秩序",
+          "fear": "真相公开后世界陷入无法控制的混乱",
+          "trauma": "宫变中选择服从命令，因此失去林默的信任",
+          "coreRelations": "林默：昔日挚友与必须控制的王储；苏遥：寻找王储的诱饵",
+          "relationAttitude": "仍珍惜旧情，却认为情感必须服从目的",
+          "socialStatus": "巡潮司年轻指挥使",
+          "storyRole": "主要反派",
+          "conflict": "想保护秩序，却不断复制当年抹除真相的手段",
+          "arc": "从自信能操纵所有人，到承认他无法替别人决定何为正确",
+          "items": "巡潮司蓝灯、伪造密信的银色封蜡",
+          "summary": "以秩序之名封住潮声的人"
+        },
+        "evidence": [
+          {
+            "id": "char-evi-gu-1",
+            "chapterId": "tide-ch-2",
+            "title": "第2章 暴雨同行",
+            "vol": "第1卷 潮钟旧案",
+            "text": "“阿默，回来。”顾衍说，“议政厅答应重审十二年前的案子。”",
+            "category": "dialogue",
+            "categoryName": "对话",
+            "createdAt": 1788405792686
+          },
+          {
+            "id": "char-evi-gu-2",
+            "chapterId": "tide-ch-4",
+            "title": "第4章 潮钟之下",
+            "vol": "第1卷 潮钟旧案",
+            "text": "他想利用苏遥找到林默，再用林默开启钟室。",
+            "category": "motivation",
+            "categoryName": "动机与恐惧",
+            "createdAt": 1788405792686
+          }
+        ]
+      }
+    ],
+    "notes": [
+      {
+        "id": "tide-note-1",
+        "title": "世界观：临潮城",
+        "content": "城市依赖潮钟与守潮人记录海潮。议政厅通过删改档案控制宫变叙事。"
+      }
+    ],
+    "manualRels": [
+      {
+        "id": "tide-rel-ls",
+        "a": "林默",
+        "b": "苏遥",
+        "type": "同盟",
+        "direction": "two-way",
+        "desc": "从互相试探到主动信任",
+        "weight": 5,
+        "secret": false,
+        "evidence": [],
+        "stages": [
+          {
+            "id": "tide-stage-ls1",
+            "type": "互相戒备",
+            "startChapterId": "tide-ch-1",
+            "endChapterId": "tide-ch-1",
+            "note": "两人争夺密信，彼此无法确认身份。",
+            "eventId": "tide-event-1",
+            "evidence": [
+              {
+                "id": "evi-1",
+                "chapterId": "tide-ch-1",
+                "title": "第1章 退潮之路",
+                "vol": "第1卷 潮钟旧案",
+                "text": "“你究竟是谁？”她低声问。“一个不想让你死在这里的人。”",
+                "createdAt": 1788405761186
+              }
+            ]
+          },
+          {
+            "id": "tide-stage-ls2",
+            "type": "暂时盟友",
+            "startChapterId": "tide-ch-2",
+            "endChapterId": "tide-ch-2",
+            "note": "盐沼伏击中互相救援，建立有限信任。",
+            "eventId": "tide-event-2",
+            "evidence": [
+              {
+                "id": "evi-2",
+                "chapterId": "tide-ch-2",
+                "title": "第2章 暴雨同行",
+                "vol": "第1卷 潮钟旧案",
+                "text": "“当然。”林默望着她，第一次真正笑了，“我们只是暂时盟友。”",
+                "createdAt": 1788405761188
+              }
+            ]
+          },
+          {
+            "id": "tide-stage-ls3",
+            "type": "信任破裂",
+            "startChapterId": "tide-ch-3",
+            "endChapterId": "tide-ch-3",
+            "note": "苏遥确认林默最初利用自己进入档案馆。",
+            "eventId": "tide-event-3",
+            "evidence": [
+              {
+                "id": "evi-3",
+                "chapterId": "tide-ch-3",
+                "title": "第3章 镜中密信",
+                "vol": "第1卷 潮钟旧案",
+                "text": "这句诚实比谎言更锋利。苏遥将怀表放回桌上，转身跟顾衍下楼。",
+                "createdAt": 1788405761188
+              }
+            ]
+          },
+          {
+            "id": "tide-stage-ls4",
+            "type": "真正同伴",
+            "startChapterId": "tide-ch-4",
+            "endChapterId": null,
+            "note": "林默坦白并交出选择权，苏遥以行动回应信任。",
+            "eventId": "tide-event-4",
+            "evidence": [
+              {
+                "id": "evi-4",
+                "chapterId": "tide-ch-4",
+                "title": "第4章 潮钟之下",
+                "vol": "第1卷 潮钟旧案",
+                "text": "“那就走吧。”她说，“这一次不是暂时盟友。”",
+                "createdAt": 1788405761188
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "tide-rel-lg",
+        "a": "林默",
+        "b": "顾衍",
+        "type": "宿敌",
+        "direction": "two-way",
+        "desc": "昔日伴读与王储，旧情被权力立场撕裂",
+        "weight": 5,
+        "secret": false,
+        "evidence": [],
+        "stages": [
+          {
+            "id": "tide-stage-lg1",
+            "type": "昔日挚友",
+            "startChapterId": "tide-ch-1",
+            "endChapterId": "tide-ch-1",
+            "note": "称呼与怀表暗示两人共享旧日经历。",
+            "eventId": "tide-event-1",
+            "evidence": [
+              {
+                "id": "evi-1",
+                "chapterId": "tide-ch-1",
+                "title": "第1章 退潮之路",
+                "vol": "第1卷 潮钟旧案",
+                "text": "为首的人是顾衍，巡潮司最年轻的指挥使。他勒马停在石路入口，隔着雨幕喊出林默的名字。",
+                "createdAt": 1788405761188
+              }
+            ]
+          },
+          {
+            "id": "tide-stage-lg2",
+            "type": "追捕与劝降",
+            "startChapterId": "tide-ch-2",
+            "endChapterId": "tide-ch-3",
+            "note": "顾衍试图以旧情和保护之名控制林默。",
+            "eventId": "tide-event-2",
+            "evidence": [
+              {
+                "id": "evi-2",
+                "chapterId": "tide-ch-2",
+                "title": "第2章 暴雨同行",
+                "vol": "第1卷 潮钟旧案",
+                "text": "“阿默，回来。”顾衍说，“议政厅答应重审十二年前的案子。”",
+                "createdAt": 1788405761188
+              }
+            ]
+          },
+          {
+            "id": "tide-stage-lg3",
+            "type": "决裂后的克制",
+            "startChapterId": "tide-ch-4",
+            "endChapterId": null,
+            "note": "林默阻止顾衍却仍在坠落时伸手相救。",
+            "eventId": "tide-event-4",
+            "evidence": [
+              {
+                "id": "evi-4",
+                "chapterId": "tide-ch-4",
+                "title": "第4章 潮钟之下",
+                "vol": "第1卷 潮钟旧案",
+                "text": "顾衍在震动中失足，林默抓住了他的手。",
+                "createdAt": 1788405761188
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "tide-rel-sg",
+        "a": "苏遥",
+        "b": "顾衍",
+        "type": "利用",
+        "direction": "one-way",
+        "desc": "顾衍用父亲的消息操纵苏遥寻找王储",
+        "weight": 4,
+        "secret": true,
+        "evidence": [],
+        "stages": [
+          {
+            "id": "tide-stage-sg1",
+            "type": "追捕对象",
+            "startChapterId": "tide-ch-1",
+            "endChapterId": "tide-ch-2",
+            "note": "苏遥认为顾衍只是执行巡潮司追捕。",
+            "eventId": "tide-event-1",
+            "evidence": [
+              {
+                "id": "evi-1",
+                "chapterId": "tide-ch-1",
+                "title": "第1章 退潮之路",
+                "vol": "第1卷 潮钟旧案",
+                "text": "远处忽然亮起巡潮司的灯，十几道马蹄声从堤岸逼近。",
+                "createdAt": 1788405761188
+              }
+            ]
+          },
+          {
+            "id": "tide-stage-sg2",
+            "type": "虚假合作",
+            "startChapterId": "tide-ch-3",
+            "endChapterId": "tide-ch-3",
+            "note": "顾衍用苏衡仍活着的假消息换取苏遥同行。",
+            "eventId": "tide-event-3",
+            "evidence": [
+              {
+                "id": "evi-3",
+                "chapterId": "tide-ch-3",
+                "title": "第3章 镜中密信",
+                "vol": "第1卷 潮钟旧案",
+                "text": "“跟我走，我带你见他。”顾衍说。",
+                "createdAt": 1788405761189
+              }
+            ]
+          },
+          {
+            "id": "tide-stage-sg3",
+            "type": "识破与对抗",
+            "startChapterId": "tide-ch-4",
+            "endChapterId": null,
+            "note": "苏遥用档案事实识破谎言，并阻止顾衍开启钟室。",
+            "eventId": "tide-event-4",
+            "evidence": [
+              {
+                "id": "evi-4",
+                "chapterId": "tide-ch-4",
+                "title": "第4章 潮钟之下",
+                "vol": "第1卷 潮钟旧案",
+                "text": "“你从来没有见过他。”苏遥说。",
+                "createdAt": 1788405761189
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "storyEvents": [
+      {
+        "id": "tide-event-1",
+        "title": "旧港初遇与追捕",
+        "summary": "苏遥携密信与林默相遇，顾衍带巡潮司追来。",
+        "characters": [
+          "林默",
+          "苏遥",
+          "顾衍"
+        ],
+        "location": "旧港钟楼",
+        "chapterId": "tide-ch-1",
+        "chapterTitle": "第1章 退潮之路"
+      },
+      {
+        "id": "tide-event-2",
+        "title": "盐沼互救",
+        "summary": "第三方弩手发动伏击，林默与苏遥互救后成为暂时盟友。",
+        "characters": [
+          "林默",
+          "苏遥",
+          "顾衍"
+        ],
+        "location": "城外盐沼",
+        "chapterId": "tide-ch-2",
+        "chapterTitle": "第2章 暴雨同行"
+      },
+      {
+        "id": "tide-event-3",
+        "title": "王储身份揭露",
+        "summary": "镜面密信显字，苏遥确认林默真实身份，并因被利用而离开。",
+        "characters": [
+          "林默",
+          "苏遥",
+          "顾衍"
+        ],
+        "location": "白汐灯塔顶层",
+        "chapterId": "tide-ch-3",
+        "chapterTitle": "第3章 镜中密信"
+      },
+      {
+        "id": "tide-event-4",
+        "title": "潮钟开启",
+        "summary": "苏遥识破谎言，与林默共同开启钟室，顾衍计划失败。",
+        "characters": [
+          "林默",
+          "苏遥",
+          "顾衍"
+        ],
+        "location": "白汐灯塔钟室",
+        "chapterId": "tide-ch-4",
+        "chapterTitle": "第4章 潮钟之下"
+      }
+    ],
+    "knowledgeFacts": [
+      {
+        "id": "tide-know-1",
+        "characterName": "苏遥",
+        "fact": "林默是失踪的王储林昭",
+        "learnedChapterId": "tide-ch-3",
+        "source": "镜面密信与铜怀表",
+        "evidence": "“你是失踪的王储。”"
+      },
+      {
+        "id": "tide-know-2",
+        "characterName": "苏遥",
+        "fact": "顾衍伪造密信并利用自己寻找林默",
+        "learnedChapterId": "tide-ch-4",
+        "source": "西塔档案矛盾与银色封蜡",
+        "evidence": "西塔三年前已经坍塌，顾衍袖口的封蜡与密信相同。"
+      },
+      {
+        "id": "tide-know-3",
+        "characterName": "林默",
+        "fact": "顾衍仍然顾念少年旧情",
+        "learnedChapterId": "tide-ch-2",
+        "source": "顾衍警告弩手并试图劝降",
+        "evidence": "下令伏击的人并不是顾衍。"
+      },
+      {
+        "id": "tide-know-4",
+        "characterName": "顾衍",
+        "fact": "白汐灯塔就是遗诏所说的潮钟",
+        "learnedChapterId": "tide-ch-3",
+        "source": "跟踪苏遥与林默",
+        "evidence": "整座灯塔就是遗诏所说的潮钟。"
+      }
+    ],
+    "foreshadows": [
+      {
+        "id": "tide-fore-1",
+        "title": "停走的铜怀表",
+        "note": "表盖刻有长昼年号，最终成为开启潮钟的钥匙。",
+        "status": "已回收",
+        "plantChapter": "第1章 退潮之路",
+        "payoffChapter": "第4章 潮钟之下"
+      },
+      {
+        "id": "tide-fore-2",
+        "title": "银色封蜡",
+        "note": "顾衍袖口封蜡与密信一致，揭示匿名线索的制造者。",
+        "status": "已回收",
+        "plantChapter": "第1章 退潮之路",
+        "payoffChapter": "第3章 镜中密信"
+      },
+      {
+        "id": "tide-fore-3",
+        "title": "潮钟的声音",
+        "note": "钟声来自灯塔脚下，暗示遗诏并非纸本文书。",
+        "status": "已回收",
+        "plantChapter": "第3章 镜中密信",
+        "payoffChapter": "第4章 潮钟之下"
+      }
+    ],
+    "trash": [],
+    "characterAnnotations": [
+      {
+        "id": "ann-lin",
+        "characterName": "林默",
+        "text": "林默",
+        "chapterId": "tide-ch-1",
+        "start": 0,
+        "end": 2,
+        "createdAt": 1788405761190
+      },
+      {
+        "id": "ann-su",
+        "characterName": "苏遥",
+        "text": "苏遥",
+        "chapterId": "tide-ch-1",
+        "start": 0,
+        "end": 2,
+        "createdAt": 1788405761190
+      },
+      {
+        "id": "ann-gu",
+        "characterName": "顾衍",
+        "text": "顾衍",
+        "chapterId": "tide-ch-1",
+        "start": 0,
+        "end": 2,
+        "createdAt": 1788405761190
+      }
+    ],
+    "bookmarks": [],
+    "graphSettings": {
+      "layout": "force",
+      "currentChapter": null
+    },
+    "customCamps": [],
+    "campColors": {},
+    "removedRels": [],
+    "daily": {},
+    "createdAt": 1788405761163
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "关系演化演示",
+  "tree": [
+    {
+      "id": "demo-vol-1",
+      "title": "第1卷",
+      "closed": false,
+      "chapters": [
+        {"id":"demo-ch-1","title":"第1章 初遇","content":"林默在旧码头遇见苏遥。苏遥没有相信他的解释。","outline":"两人初次见面，互不信任。"},
+        {"id":"demo-ch-2","title":"第2章 同行","content":"暴雨封住山路，林默和苏遥被迫同行。林默替苏遥挡下追兵。","outline":"共同危机促成暂时合作。"},
+        {"id":"demo-ch-3","title":"第3章 秘密","content":"苏遥从密信中得知林默是失踪的王储。她决定暂时隐瞒真相。","outline":"苏遥获知林默的真实身份。"}
+      ]
+    }
+  ],
+  "chars": [
+    {"id":"demo-role-1","name":"林默","tag":"主角","desc":"隐藏身份的流亡者","alias":[],"profile":{"motivation":"查清旧案","fear":"再次失去同伴"},"evidence":[]},
+    {"id":"demo-role-2","name":"苏遥","tag":"主角","desc":"追查密信的调查者","alias":[],"profile":{"motivation":"找出真相","fear":"被信任的人欺骗"},"evidence":[]}
+  ],
+  "notes": [],
+  "manualRels": [
+    {"id":"demo-rel-1","a":"林默","b":"苏遥","type":"陌生","direction":"two-way","desc":"从戒备走向合作","weight":4,"evidence":[],"stages":[
+      {"id":"demo-stage-1","type":"互相戒备","startChapterId":"demo-ch-1","endChapterId":"demo-ch-1","note":"初次见面且目标不明","eventId":"demo-event-1","evidence":[]},
+      {"id":"demo-stage-2","type":"暂时盟友","startChapterId":"demo-ch-2","endChapterId":null,"note":"共同脱险后建立初步信任","eventId":"demo-event-2","evidence":[]}
+    ]}
+  ],
+  "storyEvents": [
+    {"id":"demo-event-1","title":"旧码头初遇","summary":"两人在追查同一封密信时相遇。","characters":["林默","苏遥"],"location":"旧码头","chapterId":"demo-ch-1","chapterTitle":"第1章 初遇"},
+    {"id":"demo-event-2","title":"暴雨同行","summary":"林默替苏遥挡下追兵。","characters":["林默","苏遥"],"location":"山路","chapterId":"demo-ch-2","chapterTitle":"第2章 同行"}
+  ],
+  "knowledgeFacts": [
+    {"id":"demo-knowledge-1","characterName":"苏遥","fact":"林默是失踪的王储","learnedChapterId":"demo-ch-3","source":"密信","evidence":"苏遥从密信中得知林默是失踪的王储。"}
+  ],
+  "foreshadows": [],
+  "trash": [],
+  "characterAnnotations": [],
+  "bookmarks": [],
+  "graphSettings": {"layout":"force","currentChapter":null},
+  "customCamps": [],
+  "campColors": {},
+  "removedRels": [],
+  "daily": {},
+  "createdAt": 1788364800000
+}

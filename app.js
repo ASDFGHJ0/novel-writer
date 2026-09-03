@@ -71,6 +71,7 @@ function seedProject() {
     trash: [],
     characterAnnotations: [],
     storyEvents: [],
+    knowledgeFacts: [],
     foreshadows: [],
     daily: {},
     createdAt: Date.now(),
@@ -99,7 +100,8 @@ function migrateProject(p) {
   p.chars = p.chars || []; p.notes = p.notes || []; p.manualRels = p.manualRels || [];
   p.bookmarks = p.bookmarks || []; p.customCamps = p.customCamps || []; p.campColors = p.campColors || {};
   p.removedRels = p.removedRels || []; p.trash = p.trash || []; p.characterAnnotations = p.characterAnnotations || [];
-  p.storyEvents = p.storyEvents || []; p.foreshadows = p.foreshadows || [];
+  p.storyEvents = p.storyEvents || []; p.knowledgeFacts = p.knowledgeFacts || []; p.foreshadows = p.foreshadows || [];
+  p.manualRels.forEach(r => { r.stages = r.stages || []; r.evidence = r.evidence || []; });
   p.graphSettings = p.graphSettings || { layout: 'force', currentChapter: null };
   p.chars.forEach(c => { c.alias = c.alias || []; c.profile = c.profile || {}; c.evidence = c.evidence || []; });
   return p;

@@ -1,0 +1,20 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.js
+          node --check graph.js
+          node --check workspace-tools.js
+      - name: Check required files
+        run: node -e "const fs=require('fs');['index.html','styles.css','workspace-tools.css','README.md','项目现状.md'].forEach(f=>{if(!fs.existsSync(f))throw new Error('missing '+f)})"

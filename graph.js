@@ -160,14 +160,16 @@ window.MoyuGraph = (() => {
       .slice(0, 12)
       .map(([name, n]) => ({ name, n }));
 
-    const manualRels = (project.manualRels || []).map(normalizeEdge);
+    const chapterOrder = new Map(); let chapterPosition = 0;
+    (project.tree || []).forEach(v => (v.chapters || []).forEach(c => chapterOrder.set(c.id, ++chapterPosition)));
+    const manualRels = (project.manualRels || []).map(r => normalizeEdge(r, chapterOrder));
     const removed = new Set(project.removedRels || []);
     const merged = mergeEdges([...rels.values()], manualRels)
       .filter(e => !(e.source === 'auto' && removed.has(edgeKey(e.a, e.b))));
     return { chars, mentions, rels: merged, candidates, manualRels };
   }
 
-  function normalizeEdge(rel) {
+  function normalizeEdge(rel, chapterOrder = new Map()) {
     const a = rel.a || rel.source;
     const b = rel.b || rel.target;
     let startChapter = null, endChapter = null;
@@ -187,6 +189,8 @@ window.MoyuGraph = (() => {
       weight: Number(rel.weight) || 3,
       secret: !!rel.secret,
       startChapter, endChapter,
+      stages: (rel.stages || []).map(s => ({ ...s, startChapter: Number(s.startChapter) || chapterOrder.get(s.startChapterId) || 1, endChapter: Number(s.endChapter) || chapterOrder.get(s.endChapterId) || null })),
+      evidence: rel.evidence || [],
       source: 'manual',
       w: Number(rel.weight) || 3,
       evi: rel.desc || '',
@@ -194,6 +198,14 @@ window.MoyuGraph = (() => {
     };
   }
 
+  function relationAt(edge, chapter = currentChapter) {
+    const stages = (edge.stages || []).slice().sort((a, b) => (a.startChapter || 1) - (b.startChapter || 1));
+    if (!stages.length) return { ...edge, visible: true, stage: null };
+    const point = chapter === Infinity ? Infinity : Number(chapter);
+    const stage = point === Infinity ? stages[stages.length - 1] : stages.find(s => point >= (s.startChapter || 1) && (s.endChapter == null || point <= s.endChapter));
+    if (!stage) return { ...edge, visible: point === Infinity, stage: null };
+    return { ...edge, visible: true, stage, type: stage.type || edge.type, desc: stage.note || edge.desc, startChapter: stage.startChapter, endChapter: stage.endChapter };
+  }
   function mergeEdges(autoEdges, manualEdges) {
     const map = new Map();
     const keyOf = (a, b) => (a < b ? a + '|' + b : b + '|' + a);
@@ -543,9 +555,11 @@ window.MoyuGraph = (() => {
 
     for (const e of sim.edges) {
       if (e.a.hidden || e.b.hidden) continue;
+      const relation = relationAt(e);
+      if (!relation.visible) continue;
       if (currentChapter != null && currentChapter !== Infinity) {
-        if (e.startChapter != null && e.startChapter > currentChapter) continue;
-        if (e.endChapter != null && e.endChapter < currentChapter) continue;
+        if (relation.startChapter != null && relation.startChapter > currentChapter) continue;
+        if (relation.endChapter != null && relation.endChapter < currentChapter) continue;
       }
       const onPath = pathKeys.has(edgeKey(e.a, e.b));
       const dim = (sel && !(e.a === sel || e.b === sel)) || (hover && !(e.a === hover || e.b === hover));
@@ -738,14 +752,15 @@ window.MoyuGraph = (() => {
 
   function renderRelations(data, sel) {
     const mine = sim.edges
-      .filter(e => e.a === sel || e.b === sel)
+      .filter(e => (e.a === sel || e.b === sel) && relationAt(e).visible)
       .sort((a, b) => b.w - a.w);
     return `<div>
       <div class="gs-cap"><span>「${escapeHtml(sel.name)}」的关系</span><span>${mine.length} 条</span></div>
       ${mine.length ? mine.map(e => {
         const other = e.a === sel ? e.b : e.a;
         const badge = e.source === 'manual' ? (e.direction === 'one-way' ? '→' : '↔') : '自动';
-        const typeName = e.source === 'manual' ? e.type : REL_LEVELS[relLevel(e.w)].name;
+        const relation = relationAt(e);
+        const typeName = e.source === 'manual' ? relation.type : REL_LEVELS[relLevel(e.w)].name;
         return `<div class="rel-row edge-row" data-edge="${escapeHtml(edgeKey(e.a, e.b))}">
           <div class="rel-head">
             <span class="rel-name">${escapeHtml(other.name)}</span>
@@ -981,17 +996,20 @@ window.MoyuGraph = (() => {
     const bottom = overlay.querySelector('#graphBottom');
     const total = window.Moyu.getChapterCount();
     if (!total) { bottom.innerHTML = ''; return; }
-    const val = currentChapter === Infinity ? total : currentChapter;
+    const allPosition = total + 1;
+    const val = currentChapter === Infinity || currentChapter == null ? allPosition : Math.min(currentChapter, total);
     bottom.innerHTML = `
       <div class="timeline">
         <span>章节</span>
-        <input type="range" id="graphChapter" min="1" max="${total}" value="${val}" />
-        <span id="graphChapterLabel">${val === total ? '全部' : '第 ' + val + ' 章'}</span>
+        <input type="range" id="graphChapter" min="1" max="${allPosition}" value="${val}" />
+        <span id="graphChapterLabel">${val === allPosition ? '全部' : '第 ' + val + ' 章'}</span>
       </div>`;
     bottom.querySelector('#graphChapter').addEventListener('input', e => {
-      currentChapter = Number(e.target.value);
-      bottom.querySelector('#graphChapterLabel').textContent = currentChapter === total ? '全部' : '第 ' + currentChapter + ' 章';
+      const raw = Number(e.target.value);
+      currentChapter = raw === allPosition ? Infinity : raw;
+      bottom.querySelector('#graphChapterLabel').textContent = currentChapter === Infinity ? '全部' : '第 ' + currentChapter + ' 章';
       window.Moyu.saveGraphState({ currentChapter });
+      if (sim.sel || edgeEdit) renderSide(extract(window.Moyu.getProject()));
     });
   }
   /* ---------- 画布交互 ---------- */
@@ -1009,9 +1027,11 @@ window.MoyuGraph = (() => {
   function edgeAt(x, y) {
     for (const e of sim.edges) {
       if (e.a.hidden || e.b.hidden) continue;
+      const relation = relationAt(e);
+      if (!relation.visible) continue;
       if (currentChapter != null && currentChapter !== Infinity) {
-        if (e.startChapter != null && e.startChapter > currentChapter) continue;
-        if (e.endChapter != null && e.endChapter < currentChapter) continue;
+        if (relation.startChapter != null && relation.startChapter > currentChapter) continue;
+        if (relation.endChapter != null && relation.endChapter < currentChapter) continue;
       }
       const dx = e.b.x - e.a.x, dy = e.b.y - e.a.y;
       const len = Math.hypot(dx, dy) || 1;
@@ -1032,7 +1052,8 @@ window.MoyuGraph = (() => {
   function showTooltip(e, x, y) {
     const tip = overlay.querySelector('#graphTooltip');
     if (!tip) return;
-    tip.innerHTML = `<b>${escapeHtml(e.type || '关系')}</b><br>${escapeHtml(e.desc || (e.evi ? e.evi.slice(0, 40) : ''))}`;
+    const relation = relationAt(e);
+    tip.innerHTML = `<b>${escapeHtml(relation.type || '关系')}</b>${relation.stage ? '<br><small>当前关系阶段</small>' : ''}<br>${escapeHtml(relation.desc || (e.evi ? e.evi.slice(0, 40) : ''))}`;
     tip.style.display = 'block';
     const r = canvas.getBoundingClientRect();
     tip.style.left = (x - r.left + 12) + 'px';

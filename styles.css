@@ -172,6 +172,7 @@ input, textarea, select { font-family: inherit; color: var(--ink); }
   min-height: 0;
 }
 .side-head { display: flex; gap: 6px; padding: 10px; border-bottom: 1px solid var(--line); }
+.side-head .project-delete-btn{color:var(--muted)}.side-head .project-delete-btn:hover{border-color:color-mix(in srgb,var(--danger),transparent 45%);background:color-mix(in srgb,var(--danger) 9%,transparent);color:var(--danger)}
 .side-head select {
   flex: 1; min-width: 0;
   background: var(--paper); border: 1px solid var(--line);

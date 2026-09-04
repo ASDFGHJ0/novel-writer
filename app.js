@@ -2,6 +2,7 @@
 'use strict';
 
 const LS_KEY = 'moyu.writer.v1';
+const DELETED_PROJECTS_KEY = 'moyu.writer.deleted-projects.v1';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
@@ -129,7 +130,7 @@ const el = {
   searchInput: $('#searchInput'), searchResults: $('#searchResults'),
   btnFocus: $('#btnFocus'), btnGraph: $('#btnGraph'), btnTheme: $('#btnTheme'),
   btnExport: $('#btnExport'), exportMenu: $('#exportMenu'), btnImportProject: $('#btnImportProject'),
-  projectSelect: $('#projectSelect'), btnNewProject: $('#btnNewProject'),
+  projectSelect: $('#projectSelect'), btnNewProject: $('#btnNewProject'), btnDeleteProject: $('#btnDeleteProject'),
   tree: $('#tree'), btnAddChapter: $('#btnAddChapter'), btnAddVolume: $('#btnAddVolume'),
   chapterTitle: $('#chapterTitle'), editor: $('#editor'),
   stChapter: $('#stChapter'), stTotal: $('#stTotal'), stSaved: $('#stSaved'),
@@ -583,6 +584,19 @@ function bindEvents() {
     renderAll(); persist();
   });
 
+  el.btnDeleteProject.addEventListener('click', () => {
+    const doomed=project();
+    if(!doomed||!confirm(`删除整部小说“${doomed.title}”？其中所有章节、人物和关系都会移入回收站，可稍后恢复。`))return;
+    const deleted=getDeletedProjects();
+    deleted.unshift({id:uid(),data:doomed,deletedAt:Date.now()});
+    saveDeletedProjects(deleted.slice(0,10));
+    state.projects=state.projects.filter(p=>p.id!==doomed.id);
+    if(!state.projects.length)state.projects.push(seedProject());
+    state.activeProjectId=state.projects[0].id;
+    const first=project().tree.flatMap(v=>v.chapters)[0];
+    state.activeChapterId=first?first.id:null;
+    renderAll();persist();
+  });
   el.btnAddChapter.addEventListener('click', () => addChapter());
   el.btnAddVolume.addEventListener('click', () => addVolume());
 
@@ -754,9 +768,24 @@ function renderAll() {
   $$('.panel-tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === state.settings.tab));
 }
 
+function getDeletedProjects(){try{return JSON.parse(localStorage.getItem(DELETED_PROJECTS_KEY)||'[]')}catch{return[]}}
+function saveDeletedProjects(list){localStorage.setItem(DELETED_PROJECTS_KEY,JSON.stringify(list))}
+function restoreDeletedProject(id){
+  const deleted=getDeletedProjects(),i=deleted.findIndex(x=>x.id===id);
+  if(i<0)return false;
+  const restored=migrateProject(deleted[i].data);
+  if(state.projects.some(p=>p.id===restored.id))restored.id=uid();
+  state.projects.push(restored);deleted.splice(i,1);saveDeletedProjects(deleted);
+  state.activeProjectId=restored.id;
+  const first=restored.tree.flatMap(v=>v.chapters)[0];
+  state.activeChapterId=first?first.id:null;
+  renderAll();persist();return true;
+}
 /* 供 graph.js 使用的桥 */
 window.Moyu = {
   getProject: project,
+  getDeletedProjects,
+  restoreDeletedProject,
   wc,
   updateCharacter(name, patch = {}) {
     const p = project();
@@ -836,4 +865,3 @@ bindEvents();
 bindTreeDnD();
 renderAll();
 setSaved();
-
